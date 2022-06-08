@@ -7,22 +7,22 @@ on:
   workflow_dispatch:
 
 jobs:
-deployment:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout the code.
-        uses: actions/checkout@v3
+  deployment:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout the code.
+          uses: actions/checkout@v3
 
-      - name: Copy the Index.html to Ubuntu Server
-        uses: mdallasanta/ssh-scp-deploy@v1.2.0
-        with:
-          local: 'hello.sh'                                                  # Local file path - REQUIRED false - DEFAULT ./
-          remote: '~/hello.sh'                                                 # Remote file path - REQUIRED false - DEFAULT ~/
-          host: ${{secrets.HOST}}                                      # Remote server address - REQUIRED true
-          user: ${{secrets.USER}}                                      # Remote server user - REQUIRED true
-          key: ${{secrets.KEY}}                                        # Remote server private key - REQUIRED at least one of "password" or "key" 
-          post_upload: sudo chmod +x ~/hello.sh; sudo ~/hello.sh # Command to run via ssh after scp upload - REQUIRED false
-          ssh_options: -o StrictHostKeyChecking=no                     # A set of ssh_option separated by -o - REQUIRED false - DEFAULT -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+        - name: Copy the Index.html to Ubuntu Server
+          uses: mdallasanta/ssh-scp-deploy@v1.2.0
+          with:
+            local: 'hello.sh'                                                  # Local file path - REQUIRED false - DEFAULT ./
+            remote: '~/hello.sh'                                                 # Remote file path - REQUIRED false - DEFAULT ~/
+            host: ${{secrets.HOST}}                                      # Remote server address - REQUIRED true
+            user: ${{secrets.USER}}                                      # Remote server user - REQUIRED true
+            key: ${{secrets.KEY}}                                        # Remote server private key - REQUIRED at least one of "password" or "key" 
+            post_upload: sudo chmod +x ~/hello.sh; sudo ~/hello.sh # Command to run via ssh after scp upload - REQUIRED false
+            ssh_options: -o StrictHostKeyChecking=no                     # A set of ssh_option separated by -o - REQUIRED false - DEFAULT -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
 
 
 
