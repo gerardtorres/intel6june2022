@@ -13,7 +13,7 @@ jobs:
         - name: Checkout the code
           uses: actions/checkout@v3
 
-        - name: Copy the Index.html to Ubuntu Server
+        - name: Copy and excute script on Ubuntu Server
           uses: mdallasanta/ssh-scp-deploy@v1.2.0
           with:
             local: 'scripts/hello.sh'                                                  # Local file path - REQUIRED false - DEFAULT ./
