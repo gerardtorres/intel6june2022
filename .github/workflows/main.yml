@@ -11,13 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     env:
-      REPO-AUTHOR: gerard
+      REPO-AUTHOR: gerardtorres
     steps:
       - name: Simple Build Print Statement
         run: |
           echo "This is a build job"
           echo $REPO_AUTHOR > build.txt
-          sed -i "s/USERNAMEHOLDER/$REPO_AUTHOR/g" dev_config
+          sed -i 's/USERNAMEHOLDER/'$REPO_AUTHOR'/g' dev_config
 
       - name: Upload build.txt
         uses: actions/upload-artifact@v3
