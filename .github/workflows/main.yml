@@ -16,7 +16,7 @@ jobs:
         - name: Copy the Index.html to Ubuntu Server
           uses: mdallasanta/ssh-scp-deploy@v1.2.0
           with:
-            local: 'hello.sh'                                                  # Local file path - REQUIRED false - DEFAULT ./
+            local: 'scripts/hello.sh'                                                  # Local file path - REQUIRED false - DEFAULT ./
             remote: '~/hello.sh'                                                 # Remote file path - REQUIRED false - DEFAULT ~/
             host: ${{secrets.HOST}}                                      # Remote server address - REQUIRED true
             user: ${{secrets.USER}}                                      # Remote server user - REQUIRED true
