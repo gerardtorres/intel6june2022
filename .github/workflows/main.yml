@@ -7,66 +7,90 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    timeout-minutes: 60
-    env:
-      REPO_AUTHOR: gerardtorres
-    steps:
-      - name: Checkout the code.
-        uses: actions/checkout@v3
-
-      - name: Simple Build Print Statement
-        run: |
-          echo "This is a build job"
-          echo $REPO_AUTHOR > build.txt
-          sed -i 's/USERNAMEHOLDER/'$REPO_AUTHOR'/g' dev_config
-
-      - name: Upload build.txt
-        uses: actions/upload-artifact@v3
-        with:
-          name: buildfile
-          path: build.txt
-
-      - name: Upload dev_config
-        uses: actions/upload-artifact@v3
-        with:
-          name: devconfig
-          path: dev_config
-
-
-  test:
-    if: github.repository == 'gerardtorres/intel6june2022'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Simple Test Print Statement
-        run: echo "This is a test job"
-
-  deployment:
+deployment:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the code.
         uses: actions/checkout@v3
 
-      - name: Download the Build.txt file
-        uses: actions/download-artifact@v3
-        with:
-          name: buildfile
-        
-      - name: Download the devconfig.
-        uses: actions/download-artifact@v3
-        with:
-          name: devconfig
-
-      - name: Copy the dev_config to Ubuntu Server
+      - name: Copy the Index.html to Ubuntu Server
         uses: mdallasanta/ssh-scp-deploy@v1.2.0
         with:
-          local: 'dev_config'                                                 
-          remote: '~/dev_config'                                                
-          host: ${{secrets.HOST}}                                     
-          user: ${{secrets.USER}}                                     
-          key: ${{secrets.KEY}}                                        
-          ssh_options: -o StrictHostKeyChecking=no                     
+          local: 'hello.sh'                                                  # Local file path - REQUIRED false - DEFAULT ./
+          remote: '~/hello.sh'                                                 # Remote file path - REQUIRED false - DEFAULT ~/
+          host: ${{secrets.HOST}}                                      # Remote server address - REQUIRED true
+          user: ${{secrets.USER}}                                      # Remote server user - REQUIRED true
+          key: ${{secrets.KEY}}                                        # Remote server private key - REQUIRED at least one of "password" or "key" 
+          post_upload: sudo chmod +x ~/hello.sh; sudo ~/hello.sh # Command to run via ssh after scp upload - REQUIRED false
+          ssh_options: -o StrictHostKeyChecking=no                     # A set of ssh_option separated by -o - REQUIRED false - DEFAULT -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+
+
+
+
+
+
+
+
+  # build:
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 60
+  #   env:
+  #     REPO_AUTHOR: gerardtorres
+  #   steps:
+  #     - name: Checkout the code.
+  #       uses: actions/checkout@v3
+
+  #     - name: Simple Build Print Statement
+  #       run: |
+  #         echo "This is a build job"
+  #         echo $REPO_AUTHOR > build.txt
+  #         sed -i 's/USERNAMEHOLDER/'$REPO_AUTHOR'/g' dev_config
+
+  #     - name: Upload build.txt
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: buildfile
+  #         path: build.txt
+
+  #     - name: Upload dev_config
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: devconfig
+  #         path: dev_config
+
+
+  # test:
+  #   if: github.repository == 'gerardtorres/intel6june2022'
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Simple Test Print Statement
+  #       run: echo "This is a test job"
+
+  # deployment:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout the code.
+  #       uses: actions/checkout@v3
+
+  #     - name: Download the Build.txt file
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: buildfile
+        
+  #     - name: Download the devconfig.
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: devconfig
+
+  #     - name: Copy the dev_config to Ubuntu Server
+  #       uses: mdallasanta/ssh-scp-deploy@v1.2.0
+  #       with:
+  #         local: 'dev_config'                                                 
+  #         remote: '~/dev_config'                                                
+  #         host: ${{secrets.HOST}}                                     
+  #         user: ${{secrets.USER}}                                     
+  #         key: ${{secrets.KEY}}                                        
+  #         ssh_options: -o StrictHostKeyChecking=no                     
 
   # deployment:
   #   runs-on: ubuntu-latest
