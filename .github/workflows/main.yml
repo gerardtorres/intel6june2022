@@ -1,4 +1,4 @@
-name:  Static HTML Deployment to Ubuntu Server
+name:  Excuting Script 
 
 on:
   push:
